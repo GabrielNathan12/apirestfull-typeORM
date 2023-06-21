@@ -11,7 +11,7 @@ export class UF{
         Nome: string;
     @Column({type: 'int'})
         Status:number;
-    @OneToMany(() => Municipio, (municipio) => municipio.Codigo_UF)
-        Municipios: Municipio[]
+    @OneToMany(() => Municipio, (municipio) => municipio.Codigo_UF, {cascade: true})
+        Municipios: Municipio[];
 
 }

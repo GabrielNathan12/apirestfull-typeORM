@@ -1,4 +1,4 @@
-import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Tree} from 'typeorm';
 import { UF } from './UF';
 import { Bairro } from './Bairro';
 
@@ -13,7 +13,7 @@ export class Municipio{
     @ManyToOne(() => UF, (uf) => uf.Municipios)
         @JoinColumn({name: 'Codigo_UF'})
             Codigo_UF: UF;
-    @OneToMany(() => Bairro, (bairro) => bairro.Codigos_Municipio)
+    @OneToMany(() => Bairro, (bairro) => bairro.Codigos_Municipio, {cascade: true})
         
-        Bairros: Bairro[]
+        Bairros: Bairro[];
 }

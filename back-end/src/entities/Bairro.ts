@@ -3,7 +3,9 @@ import { Municipio } from './Municipio';
 
 @Entity('tb_Bairro')
 export class Bairro{
-    @PrimaryColumn({type: 'text'})
+    @PrimaryGeneratedColumn()
+        codigo_Bairro: number
+    @Column({type: 'text'})
         Nome: string
     @Column({type: 'int'})
         Status:number;
@@ -11,5 +13,4 @@ export class Bairro{
 
     @JoinColumn({name: 'Codigo_municipio'})
         Codigos_Municipio: Municipio;
-    
 }
