@@ -4,7 +4,6 @@ import { ufRepositorio } from "../repositorios/UFRepositorie";
 export class controladorUF{
 
     public async criarUF(resquest: Request, response:Response){
-        // LOGICA ERRADA POR ENQUANTO
         const { Sigla , Nome, Status} = resquest.body;
         
         try{
@@ -37,6 +36,23 @@ export class controladorUF{
         catch(erro){
             return response.status(500).json({mensagem: "Erro interno no servidor " +  erro})
         }
+
+    }
+    public async listarMunicipios(resquisicao: Request, resposta:Response){
+        try{
+            const municipios = await ufRepositorio.find({
+                relations: {
+                    Municipios: true
+                }
+            });
+            return resposta.status(200).json(municipios);
+        }
+        catch(error){
+            return resposta.status(500).json({mensagem: "Erro interno no servidor"});
+        }
+    }
+
+    public async atualizarUF(requisicao: Request, resposta: Response){
 
     }
 }
