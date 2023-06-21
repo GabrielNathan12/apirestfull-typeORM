@@ -10,9 +10,10 @@ export class Municipio{
         Nome: string
     @Column({type: 'int'})
         Status:number;
-    @ManyToOne(() => UF, uf => uf.Codigos_UF)
+    @ManyToOne(() => UF, (uf) => uf.Municipios)
         @JoinColumn({name: 'Codigo_UF'})
             Codigo_UF: UF;
-    @OneToMany(() => Bairro, (bairro: { Codigo_UF: any; }) => bairro.Codigo_UF)
-        Codigos_UF: Bairro[]
+    @OneToMany(() => Bairro, (bairro) => bairro.Codigos_Municipio)
+        
+        Bairros: Bairro[]
 }

@@ -1,16 +1,15 @@
-import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn} from 'typeorm';
 import { Municipio } from './Municipio';
 
 @Entity('tb_Bairro')
 export class Bairro{
-    @PrimaryGeneratedColumn()
-        Codigo_Bairro:string;
-    @Column({type: 'text'})
+    @PrimaryColumn({type: 'text'})
         Nome: string
     @Column({type: 'int'})
         Status:number;
-    @ManyToOne(() => Municipio, municipio => municipio.Codigo_UF)
-        @JoinColumn({name: 'Codigo_UF'})
-            Codigo_UF: Municipio;
+    @ManyToOne(() => Municipio, (municipio) => municipio.Bairros)
+
+    @JoinColumn({name: 'Codigo_municipio'})
+        Codigos_Municipio: Municipio;
     
 }
