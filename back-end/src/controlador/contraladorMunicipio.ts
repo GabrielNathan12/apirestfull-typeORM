@@ -57,4 +57,58 @@ export class controladorMunicipio{
             return resposta.status(500).json({mensagem: "Erro interno no servidor"});
         }
     }
+
+    public async atualizarMunicipio(requisicao: Request, resposta: Response) {
+        const { Nome, Status } = requisicao.body;
+        const atualizarMunicipio = parseInt(requisicao.params.idmuni);
+      
+        try {
+            // Procura na url passada o codigo a ser alterado
+            const Codigo_Municipio = await municipioRepositorio.findOne({ where: { Codigo_Municipio: atualizarMunicipio } });
+            // Procura no banco de nome o sigla que vai ser alterado
+            const nome = await municipioRepositorio.findOne({where: {Nome: Nome}});
+
+
+            // Verifica se o codigo passado pela url e valido
+            if (!Codigo_Municipio) {
+                return resposta.status(400).json({ mensagem: "Codigo do municipio nao encontrado" });
+            }
+            // Verifica se o nome e a sigla ja estao registrados, para nao ter duplicacao de estados, cidades etc...
+
+            if(nome){
+                return resposta.status(400).json({ mensagem: "Nome ja inserido no Banco de Dados" });
+            }
+            // Faz com que o a Nome passado no Json seja uma nova OU a antiga
+            Codigo_Municipio.Nome = Nome || Codigo_Municipio.Nome;
+            // Faz com que o a Status passada no Json seja uma nova OU a antiga
+            Codigo_Municipio.Status = Status || Codigo_Municipio.Status;
+            
+            // Pode mudar o nome do estado ou da sigla, mas deve garantir que nao coloque duplicado no banco de dados
+            const novoMunicipio = await municipioRepositorio.save(Codigo_Municipio);
+            // Retorna o Json resultante da alteracao
+            return resposta.status(200).json(novoMunicipio);
+        }
+        catch (erro) {
+            return resposta.status(500).json({ mensagem: "Erro interno no servidor: " + erro });
+        }
+    }
+
+    public async deletarMunicipio(requisicao: Request, resposta: Response){
+        const deletar = parseInt(requisicao.params.idmuni);
+      
+        try {
+          const codigo_Municipio = await municipioRepositorio.findOne({ where: { Codigo_Municipio: deletar } });
+          
+            if (!codigo_Municipio) {
+                return resposta.status(400).json({ mensagem: "Codigo municipio nao encontrado" });
+            }
+ 
+            await municipioRepositorio.remove(codigo_Municipio);
+      
+            return resposta.status(200).json({mensagem: "Delecao completada com sucesso"});
+        }
+        catch (erro) {
+            return resposta.status(500).json({ mensagem: "Erro interno no servidor: " + erro });
+        }
+    }
 }

@@ -6,4 +6,6 @@ const contraladorMunicipio = new controladorMunicipio();
 
 rotaMunicipio.post('/municipio', contraladorMunicipio.criarMunicipio);
 rotaMunicipio.get('/municipio', contraladorMunicipio.listarMunicipios);
+rotaMunicipio.put('/municipio/:idmuni' , contraladorMunicipio.atualizarMunicipio);
+rotaMunicipio.delete('/municipio/:idmuni', contraladorMunicipio.deletarMunicipio);
 export default rotaMunicipio;
